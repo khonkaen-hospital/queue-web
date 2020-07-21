@@ -88,7 +88,7 @@ export class VisitComponent implements OnInit {
   openPriority(visit: any) {
     this.patientName = `${visit.first_name} ${visit.last_name} (${visit.hn})`;
     this.selectedVisit = visit;
-    this.mdlSelectPriority.open();
+    this.mdlSelectPriority.open(this.servicePointId);
   }
 
   onSelectedPrinter(event) {
@@ -233,6 +233,10 @@ export class VisitComponent implements OnInit {
 
   changeServicePoints(event: any) {
     this.servicePointCode = event.target.value;
+    const servicepointSelect = this.servicePoints.find(v => v.local_code === event.target.value);
+    if (servicepointSelect) {
+      this.servicePointId = servicepointSelect.service_point_id;
+    }
     this.query = '';
     this.getVisit();
   }

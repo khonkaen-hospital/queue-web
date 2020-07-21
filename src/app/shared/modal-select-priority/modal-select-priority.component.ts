@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angu
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from '../alert.service';
 import { PriorityService } from '../priority.service';
+import { PrioritiesServicepointService } from '../priorities-servicepoint.service';
 
 @Component({
   selector: 'app-modal-select-priority',
@@ -21,14 +22,15 @@ export class ModalSelectPriorityComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private alertService: AlertService,
-    private priorityService: PriorityService
+    private priorityService: PriorityService,
+    private prioritiesServicepointService: PrioritiesServicepointService
   ) { }
 
   ngOnInit() { }
 
-  open() {
+  open(servicePointId = 0) {
 
-    this.getList();
+    this.getList(servicePointId);
 
     this.modalReference = this.modalService.open(this.content, {
       ariaLabelledBy: 'modal-basic-title',
@@ -46,9 +48,24 @@ export class ModalSelectPriorityComponent implements OnInit {
     this.modalReference.close();
   }
 
-  async getList() {
+  async getList(servicePointId = 0) {
     try {
-      const rs: any = await this.priorityService.list();
+      let rs: any;
+      rs = await this.priorityService.list();
+      const data: any = await this.prioritiesServicepointService.listBySerivicePoint(servicePointId);
+      console.log(data.results.length);
+      if (data.results.length > 0) {
+        const temp = [];
+        data.results.forEach(v => {
+          const proi = this.priorities.find(p => p.priority_id === v.priority_id);
+          if (proi) {
+            temp.push(proi);
+          }
+        });
+        if (temp.length > 0) {
+          rs.results = temp;
+        }
+      }
       if (rs.statusCode === 200) {
         this.priorities = rs.results;
       } else {
