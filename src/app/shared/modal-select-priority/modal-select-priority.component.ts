@@ -52,22 +52,8 @@ export class ModalSelectPriorityComponent implements OnInit {
     try {
       let rs: any;
       rs = await this.priorityService.list();
-      const data: any = await this.prioritiesServicepointService.listBySerivicePoint(servicePointId);
-      console.log(data.results.length);
-      if (data.results.length > 0) {
-        const temp = [];
-        data.results.forEach(v => {
-          const proi = this.priorities.find(p => p.priority_id === v.priority_id);
-          if (proi) {
-            temp.push(proi);
-          }
-        });
-        if (temp.length > 0) {
-          rs.results = temp;
-        }
-      }
       if (rs.statusCode === 200) {
-        this.priorities = rs.results;
+        this.priorities = await this.getPriorityByServicepoint(rs.results, servicePointId);
       } else {
         this.alertService.error(rs.message);
       }
@@ -75,6 +61,25 @@ export class ModalSelectPriorityComponent implements OnInit {
       console.error(error);
       this.alertService.error('เกิดข้อผิดพลาด');
     }
+  }
+
+  /**
+   *  Get priorities by servicepoint id & replace priorities
+   */
+
+  async getPriorityByServicepoint(allPriorities = [], servicePointId = 0) {
+    const data: any = await this.prioritiesServicepointService.listBySerivicePoint(servicePointId);
+    if (data.results.length > 0) {
+      const selected = [];
+      data.results.forEach(v => {
+        const proi = allPriorities.find(p => p.priority_id === v.priority_id);
+        if (proi) { selected.push(proi); }
+      });
+      if (selected.length > 0) {
+        allPriorities = selected;
+      }
+    }
+    return allPriorities;
   }
 
   async selected(priority: any) {
