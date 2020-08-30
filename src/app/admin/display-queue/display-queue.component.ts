@@ -15,7 +15,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-display-queue',
-  templateUrl: './display-queue.component.html',
+  templateUrl: './display-queue-flat.component.html',
   styles: [
     `
     .thai-sarabun {

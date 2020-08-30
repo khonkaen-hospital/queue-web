@@ -1,35 +1,5 @@
 <div class="container-scroller">
-  <!-- partial:../../partials/_navbar.html -->
-  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-      <a class="navbar-brand brand-logo" href="javascript://">
-        <img style="width: 40px; height: 40px;" src="./assets/images/iconQ4U100.png" alt=""></a>
-      <span class="font-weight-bold" style="font-size: 1.5rem;">
-        ระบบคิวออนไลน์
-      </span>
-    </div>
-    <div class="navbar-menu-wrapper d-flex align-items-stretch">
 
-      <ul class="navbar-nav navbar-nav-right">
-        <li class="nav-item d-none d-lg-block full-screen-link">
-          <a class="nav-link" href="javascript://" routerLink="/admin">
-            <i class="mdi mdi-home text-success"></i>
-          </a>
-        </li>
-        <li class="nav-item d-none d-lg-block full-screen-link">
-          <a class="nav-link" appToggleFullscreen href="javascript://">
-            <i class="mdi mdi-fullscreen text-primary"></i>
-          </a>
-        </li>
-        <li class="nav-item d-none d-lg-block full-screen-link">
-          <a class="nav-link" (click)="logout()" href="javascript://">
-            <i class="mdi mdi-power text-danger"></i>
-          </a>
-        </li>
-
-      </ul>
-    </div>
-  </nav>
   <!-- partial -->
   <div class="container-fluid page-body-wrapper">
     <!-- partial:../../partials/_sidebar.html -->
@@ -60,7 +30,7 @@
     </nav> -->
     <!-- partial -->
     <div class="main-panel">
-      <div class="content-wrapper">
+      <div class="content-wrapper" style="padding-top: 1rem;">
 
         <div class="card card-inverse-danger" *ngIf="isOffline">
           <div class="card-body">
@@ -89,15 +59,16 @@
           <div class="col-md-6" *ngFor="let item of workingItems; let idx = index;">
             <div
               [ngClass]="{'invalid-blink': item.queue_number===currentQueueNumber,'bg-primary':item.queue_number!==currentQueueNumber}"
-              class="row bg-primary text-white" style="margin: 20px 5px 0px 5px; border-radius: 20px;
-              border: 5px solid white; padding: 20px;">
+              class="row bg-primary text-white" style="margin: 5px 5px 0px 5px; border-radius: 0px;
+              border: 0px solid white; padding: 0px;">
               <div class="col-md-9">
-                <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 10rem;">
+                <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 6rem;">
                   {{ item.queue_number || '-' }}
                 </span>
               </div>
               <div class="col-md-3" style="text-align: right;">
-                <span class="font-weight-bold" style="font-size: 10rem;">
+                <span class="font-weight-bold"
+                  style="font-size: 6rem; font-family: sans-serif; color: white; background-color: #000000; display: inline-block;  width:133px; text-align: center;">
                   {{ item.room_number || '-' }}
                 </span>
               </div>
@@ -115,7 +86,6 @@
                 class="h2 text-danger float-right mdi mdi-bell-ring"></i>
               <i style="cursor: pointer;" *ngIf="!isSound" (click)="toggleSound()"
                 class="h2 text-muted float-right mdi mdi-bell-off"></i>
-
             </div>
             <div class="float-right">
               <span class="h2 font-weight-bold text-primary" style="cursor: pointer" (click)="selectServicePoint()">
