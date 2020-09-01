@@ -16,6 +16,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 @Component({
   selector: 'app-display-queue',
   templateUrl: './display-queue-flat.component.html',
+  styleUrls: ['./style.css'],
   styles: [
     `
     .thai-sarabun {
@@ -38,7 +39,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
     }
 
     `
-
   ]
 })
 export class DisplayQueueComponent implements OnInit, OnDestroy {

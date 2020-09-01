@@ -1,0 +1,4 @@
+#!/bin/sh
+/usr/bin/chromium-browser   --noerrdialogs --disable-restore-session-state --disable-pinch --disable-infobars --kiosk  \
+--app 'http://queue.kkh.go.th/#/display-queue?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZSI6Img0dSIsImRlc2NyaXB0aW9uIjoiZm9yIGFjY2VzcyBRNFUgYXBpIiwiUVVFVUVfQ0VOVEVSX1RPUElDIjoicXVldWUvY2VudGVyIiwiU0VSVklDRV9QT0lOVF9UT1BJQyI6InF1ZXVlL3NlcnZpY2UtcG9pbnQiLCJERVBBUlRNRU5UX1RPUElDIjoicXVldWUvZGVwYXJ0bWVudCIsIk5PVElGWV9VU0VSIjoicTR1IiwiTk9USUZZX1BBU1NXT1JEIjoiIyNxNHUjIyIsIk5PVElGWV9TRVJWRVIiOiJxdWV1ZS5ra2guZ28udGgiLCJOT1RJRllfUE9SVCI6IjgwODAiLCJTUEVBS19TSU5HTEUiOiJOIiwiaWF0IjoxNTk4Nzc2MTM1LCJleHAiOjE2MzAzMzM3MzV9.lVmuU0JzCMRh_ATvLI9qd-yDEObXz1nBwu1ZZqsUC34&servicePointId=20&servicePointName=ห้องตรวจศัลยกรรมกระดูก'
+
