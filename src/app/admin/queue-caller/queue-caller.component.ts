@@ -259,10 +259,21 @@ export class QueueCallerComponent implements OnInit, OnDestroy {
       this.alertService.error();
     }
   }
+
+  refreshWorking() {
+    this.query = '';
+    this.getWorking();
+  }
+
   searchWorking(e) {
     if (e.keyCode === 13) {
       this.getWorking();
     }
+  }
+
+  refreshWaiting() {
+    this.query = '';
+    this.getWaiting();
   }
 
   searchWaiting(e) {
@@ -271,12 +282,21 @@ export class QueueCallerComponent implements OnInit, OnDestroy {
     }
   }
 
+  refreshPending(e) {
+    this.query = '';
+    this.getPending();
+  }
+
   searchPending(e) {
     if (e.keyCode === 13) {
       this.getPending();
     }
   }
 
+  refreshHistory(e) {
+    this.query = '';
+    this.getHistory();
+  }
   searchHistory(e) {
     if (e.keyCode === 13) {
       this.getHistory();

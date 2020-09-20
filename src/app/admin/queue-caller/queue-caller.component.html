@@ -47,8 +47,24 @@
             <div class="col-md-1">
               <span>ค้นหา : </span>
             </div>
-            <div class="col-md-10">
-              <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchWorking($event)">
+            <div class="col-md-5">
+              <!-- <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchWorking($event)"> -->
+
+              <div class="input-group" style="width: 350px;">
+                <input type="text" (click)="$event.target.select()" class="form-control" name="query"
+                  (keyup)="searchWorking($event)" [(ngModel)]="query" placeholder="ระบุคำค้นหา.."
+                  aria-label="ระบุคำค้นหา" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary btn-sm" (click)="getWorking()" type="button" id="button-addon2">
+                    <i class="mdi mdi-account-search"></i>
+                    ค้นหา
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="refreshWorking()" type="button" id="button-addon2">
+                    <i class="mdi mdi mdi-refresh"></i>
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -123,8 +139,24 @@
             <div class="col-md-1">
               <span>ค้นหา : </span>
             </div>
-            <div class="col-md-10">
-              <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchWaiting($event)">
+            <div class="col-md-5">
+              <!-- <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchWaiting($event)"> -->
+
+              <div class="input-group" style="width: 350px;">
+                <input type="text" (click)="$event.target.select()" class="form-control" name="query"
+                  (keyup)="searchWaiting($event)" [(ngModel)]="query" placeholder="ระบุคำค้นหา.."
+                  aria-label="ระบุคำค้นหา" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary btn-sm" (click)="getWaiting()" type="button" id="button-addon2">
+                    <i class="mdi mdi-account-search"></i>
+                    ค้นหา
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="refreshWaiting()" type="button" id="button-addon2">
+                    <i class="mdi mdi mdi-refresh"></i>
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -269,8 +301,25 @@
             <div class="col-md-1">
               <span>ค้นหา : </span>
             </div>
-            <div class="col-md-10">
-              <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchPending($event)">
+            <div class="col-md-5">
+
+              <!-- <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchPending($event)"> -->
+
+              <div class="input-group" style="width: 350px;">
+                <input type="text" (click)="$event.target.select()" class="form-control" name="query"
+                  (keyup)="searchPending($event)" [(ngModel)]="query" placeholder="ระบุคำค้นหา.."
+                  aria-label="ระบุคำค้นหา" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary btn-sm" (click)="getPending()" type="button" id="button-addon2">
+                    <i class="mdi mdi-account-search"></i>
+                    ค้นหา
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="refreshPending()" type="button" id="button-addon2">
+                    <i class="mdi mdi mdi-refresh"></i>
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -369,8 +418,24 @@
             <div class="col-md-1">
               <span>ค้นหา : </span>
             </div>
-            <div class="col-md-10">
-              <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchHistory($event)">
+            <div class="col-md-5">
+              <!-- <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchHistory($event)"> -->
+
+              <div class="input-group" style="width: 350px;">
+                <input type="text" (click)="$event.target.select()" class="form-control" name="query"
+                  (keyup)="searchHistory($event)" [(ngModel)]="query" placeholder="ระบุคำค้นหา.."
+                  aria-label="ระบุคำค้นหา" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary btn-sm" (click)="getHistory()" type="button" id="button-addon2">
+                    <i class="mdi mdi-account-search"></i>
+                    ค้นหา
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="refreshHistory()" type="button" id="button-addon2">
+                    <i class="mdi mdi mdi-refresh"></i>
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
