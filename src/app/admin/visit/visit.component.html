@@ -3,7 +3,7 @@
 <ngb-tabset>
   <ngb-tab>
     <ng-template ngbTabTitle>
-      <span class="h3">ทะเบียนผู้รับบริการ
+      <span class="h3">ทะเบียนผู้รับบริการ ({{total || 0}})
       </span>
     </ng-template>
     <ng-template ngbTabContent>
@@ -16,7 +16,7 @@
               </p>
               <div class="row">
                 <div class="col-md-9">
-                  <div class="input-group" style="width: 250px;">
+                  <div class="input-group" style="width: 350px;">
                     <input type="text" (click)="$event.target.select()" class="form-control" name="query"
                       (keyup)="doSearch($event)" [(ngModel)]="query" placeholder="ระบุคำค้นหา.."
                       aria-label="ระบุคำค้นหา" aria-describedby="button-addon2">
@@ -88,7 +88,7 @@
   </ngb-tab>
   <ngb-tab>
     <ng-template ngbTabTitle>
-      <span class="h3">ประวัติการสร้างคิว
+      <span class="h3">ประวัติการสร้างคิว ({{totalHistory || 0}})
         <!-- <label class="badge badge-danger">
           <span class="h3 font-weight-bold">{{workingItems.length || 0}}</span>
         </label> -->
@@ -110,7 +110,7 @@
               </p>
               <div class="row">
                 <div class="col-md-9">
-                  <div class="input-group" style="width: 250px;">
+                  <div class="input-group" style="width: 350px;">
                     <input type="text" (click)="$event.target.select()" class="form-control" name="query"
                       (keyup)="doSearchHistory($event)" [(ngModel)]="query" placeholder="ระบุคำค้นหา.."
                       aria-label="ระบุคำค้นหา" aria-describedby="button-addon2">
@@ -158,9 +158,12 @@
                   <tr *ngFor="let v of visitHistory">
                     <td>{{v.time_serv}}</td>
                     <td>{{v.hn}}</td>
-                    <td>
-                      <del *ngIf="v.is_cancel=='Y'">{{v.first_name}} {{v.last_name}} </del>
-                      <span *ngIf="v.is_cancel=='N'"> {{v.first_name}} {{v.last_name}}</span>
+                    <td><strong>
+
+
+                        <del *ngIf="v.is_cancel=='Y'">{{v.first_name}} {{v.last_name}} </del>
+                        <span *ngIf="v.is_cancel=='N'"> {{v.first_name}} {{v.last_name}}</span>
+                      </strong>
                       <span class="badge badge-danger" *ngIf="v.is_cancel=='Y'">ยกเลิก</span>
                     </td>
                     <td>{{v.queue_number}} </td>
