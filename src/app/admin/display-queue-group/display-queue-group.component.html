@@ -64,7 +64,8 @@
               <div class="card-body" style="padding: 1rem 2.5rem">
                 <div class="row">
                   <div class="col-md-6 font-weight-bold" style="font-size: 3rem;">หมายเลข</div>
-                  <div class="col-md-6 font-weight-bold" style="font-size: 3rem; text-align: right">ห้องตรวจ</div>
+                  <div class="col-md-6 font-weight-bold" style="font-size: 3rem; text-align: right">ห้องตรวจ
+                  </div>
                 </div>
 
                 <div *ngFor="let item of workingItemsHistory">
@@ -111,24 +112,24 @@
           </div>
           <div class="col-md-6">
 
-            <div class="card bg-primary card-img-holder text-white">
+            <div class="card bg-gradient-primary card-img-holder text-white">
 
               <div class="card-body" style="padding: 1rem 2.5rem">
                 <div style="font-size: 3rem;" class="font-weight-normal">
                   <div class="row">
-                    <div class="col-md-6 font-weight-bold">ลำดับที่</div>
-                    <div class="col-md-6 font-weight-bold" style="text-align: right">ช่องบริการ</div>
+                    <div class="col-md-6 font-weight-bold">กำลังตรวจ</div>
+                    <div class="col-md-6 font-weight-bold" style="text-align: right">ห้องตรวจ</div>
                   </div>
                 </div>
                 <div *ngFor="let item of workingItems">
                   <div class="row">
                     <div class="col-md-9">
-                      <span class="font-weight-bold" style="font-size: 10rem;">{{
+                      <span class="font-weight-bold" style=" font-family: 'thaisans'; font-size: 8rem;">{{
                         item.queue_number
                         || '-'}}</span>
                     </div>
                     <div class="col-md-3" style="text-align: right;">
-                      <span class="font-weight-bold" style="font-size: 10rem; color:yellow">{{item.room_number
+                      <span class="font-weight-bold" style="font-size: 8rem; color:yellow">{{item.room_number
                         || '-'}}</span>
                     </div>
                   </div>
