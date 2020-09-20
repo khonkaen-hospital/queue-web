@@ -166,7 +166,7 @@ export class DisplayQueueGroupComponent implements OnInit, OnDestroy {
         audioFiles.push(`./assets/audio/${z}.mp3`);
       });
     });
-
+    console.log(this.soundFile);
     if (this.soundFile) {
       audioFiles.push(`./assets/audio/${this.soundFile}`);
     } else {
@@ -292,6 +292,7 @@ export class DisplayQueueGroupComponent implements OnInit, OnDestroy {
     }
 
     const topic = `${this.groupTopic}/${this.servicePointId}`;
+    console.log('topic=', topic);
 
     const that = this;
 
