@@ -32,6 +32,7 @@ export class SsoComponent implements OnInit {
   isPrinting = false;
 
   cardCid: any;
+  cardCidShow: any;
   cardFullName: any;
   cardBirthDate: any;
   his: any;
@@ -135,6 +136,7 @@ export class SsoComponent implements OnInit {
       });
 
       that.client.subscribe(topic, { qos: 0 }, (error) => {
+
         if (error) {
           that.zone.run(() => {
             that.isOffline = true;
@@ -226,12 +228,14 @@ export class SsoComponent implements OnInit {
   }
 
   async setDataFromCard(data) {
+    console.log(data);
     this.cardCid = data.cid;
+    this.cardCidShow = data.cid.slice(0, data.cid.length - 4) + data.cid.slice(data.cid.length - 4, data.cid.length).replace(/[0-9]/g, "*");
     this.cardFullName = data.fullname;
     this.cardBirthDate = data.birthDate;
     if (this.cardCid) {
       await this.getPatient();
-      await this.getNhso(this.cardCid);
+      await this.getNhso(this.cardCid, data);
 
     } else {
       this.alertService.error('บัตรมีปัญหา กรุณาเสียบใหม่อีกครั้ง', null, 1000);
@@ -260,6 +264,7 @@ export class SsoComponent implements OnInit {
 
   clearData() {
     this.cardCid = '';
+    this.cardCidShow = '';
     this.cardFullName = '';
     this.cardBirthDate = '';
 
@@ -332,14 +337,15 @@ export class SsoComponent implements OnInit {
     }
   }
 
-  async getNhso(cid) {
+  async getNhso(cid, person) {
+
     this.loading = true;
     const nhsoToken = localStorage.getItem('nhsoToken');
     const nhsoCid = localStorage.getItem('nhsoCid');
     const data = `<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tok=\"http://tokenws.ucws.nhso.go.th/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <tok:searchCurrentByPID>\n         <!--Optional:-->\n         <user_person_id>${nhsoCid}</user_person_id>\n         <!--Optional:-->\n         <smctoken>${nhsoToken}</smctoken>\n         <!--Optional:-->\n         <person_id>${cid}</person_id>\n      </tok:searchCurrentByPID>\n   </soapenv:Body>\n</soapenv:Envelope>`;
     try {
       const nhso: any = {};
-      const rs: any = await this.kioskService.getNhso(this.token, data);
+      const rs: any = await this.kioskService.getNhso(this.token, { data: data, person: person });
       rs.results.forEach(v => {
         if (v.name === 'hmain') { nhso.hmain = v.elements[0].text; }
         if (v.name === 'hmain_name') { nhso.hmain_name = v.elements[0].text; }

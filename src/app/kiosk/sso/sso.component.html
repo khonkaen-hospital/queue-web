@@ -15,8 +15,8 @@
   <div class="row">
     <div class="col-12">
       <div class='silver' style="padding:100px 20px 20px 20px;">
-        <div style="font-size: 2.5rem; font-weight: bold;" (dblclick)="home()">{{hospname}}</div>
-        <h1>ระบบตรวจสอบสิทธิการรักษาพยาบาล</h1>
+        <div style="font-size: 3.5rem; font-weight: bold;" (dblclick)="home()"> ระบบตรวจสอบสิทธิการรักษาพยาบาล </div>
+        <h1>{{hospname}}</h1>
       </div>
     </div>
 
@@ -27,28 +27,30 @@
       <div class="row">
         <div class="col-6">
           <div class='silver' style="min-height: 450px;padding:30px;">
-            <h1>ข้อมูลจากบัตรประชาชน</h1>
+            <h1>ข้อมูลจากบัตรประชาชน</h1><br>
             <span>เลขบัตรประชาชน</span>
-            <p id="txtCid">{{cardCid || '-'}}</p>
+            <p id="txtCid"><strong>{{cardCidShow || '-'}}</strong></p>
             <span>ชื่อ - สกุล</span>
-            <p id="txtFullname">{{cardFullName || '-'}}</p>
+            <p id="txtFullname"><strong>{{cardFullName || '-'}}</strong></p>
             <span>วันเกิด</span>
-            <p id="txtBirthdate">{{cardBirthDate || '-'}}</p>
-            <h4 style="text-align: right">**ข้อมูลจากเครื่องอ่านบัตรประชาชน</h4>
+            <p id="txtBirthdate"><strong>{{cardBirthDate || '-'}}</strong></p>
+            <h4 style="text-align: center">**ข้อมูลจากเครื่องอ่านบัตรประชาชน</h4>
           </div>
         </div>
+
         <div class="col-6">
           <div class='gold' style="min-height: 450px; padding:30px;">
-            <h1>ข้อมูลสิทธิการรักษา</h1>
-            <div *ngIf="loading" id="loading">กำลังตรวจสอบข้อมูล....</div>
-
+            <h1>ข้อมูลสิทธิการรักษา</h1><br>
+            <div *ngIf="loading" style="font-size: 2.5rem;" id="loading">กำลังตรวจสอบข้อมูล....</div>
             <span>สิทธิการรักษา</span>
-            <p id="txtNHSORight">{{rightName || '-'}}</p>
-            <span>วันที่เริ่มใช้สิทธิ์</span>
-            <p id="txtNHSOStartDart">{{rightStartDate || '-'}}</p>
+            <p style="font-size: 2rem;" id="txtNHSORight"><strong>{{rightName || '-'}}</strong> </p>
+
             <span>หน่วยบริการหลัก</span>
-            <p id="txtNHSOHmain">{{rightHospital || '-'}}</p>
-            <h4 style="text-align: right">**สำนักงานหลักประกันสุขภาพแห่งชาติ</h4>
+            <p style="font-size: 2rem;" id="txtNHSOHmain"><strong>{{rightHospital || '-'}}</strong></p>
+
+            <span>วันที่เริ่มใช้สิทธิ์</span>
+            <p id="txtNHSOStartDart"><strong>{{rightStartDate || '-'}}</strong></p>
+            <h4 style="text-align: center">**สำนักงานหลักประกันสุขภาพแห่งชาติ</h4>
 
           </div>
         </div>

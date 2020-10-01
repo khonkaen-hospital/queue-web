@@ -119,7 +119,7 @@ export class KioskService {
     } else {
       _httpOptions = this.httpOptions;
     }
-    return this.httpClient.post(_url, { data: data }, _httpOptions).toPromise();
+    return this.httpClient.post(_url, data, _httpOptions).toPromise();
   }
 
   async sendAPITRIGGER(token, type, url, hn, cid, localCode, servicePointId) {
