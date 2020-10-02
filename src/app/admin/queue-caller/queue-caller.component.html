@@ -369,18 +369,18 @@
                 <td>
                   <button *ngIf="rooms.length > 5" class="btn btn-sm btn-success" (click)="openModalSelectRoom(item)">
                     <span class="h4">
-                      เรียกคิว
+                      เรียกคิว1
                     </span>
                   </button>
                   <button *ngIf="rooms.length > 1 && rooms.length <= 5" class="btn btn-sm btn-success"
                     (click)="setQueueForCall(item)" [ngbPopover]="popContent" popoverTitle="เลือกช่องรับบริการ">
                     <span class="h4">
-                      เรียกคิว
+                      เรียกคิว2
                     </span>
                   </button>
                   <button *ngIf="rooms.length === 1" class="btn btn-sm btn-success" (click)="setCallDetail(item)">
                     <span class="h4">
-                      เรียกคิว
+                      เรียกคิว3
                     </span>
                   </button>
                   <button disabled="disabled" *ngIf="rooms.length === 0" class="btn btn-sm btn-success">

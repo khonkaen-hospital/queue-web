@@ -10,6 +10,7 @@
       </strong>)</button>
   </div>
 </div>
+
 <!-- <button class="btn btn-primary" (click)="playSound()">Play</button> -->
 <div class="page-header">
   <h3 class="page-title">
@@ -32,7 +33,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-6" style="padding-left:10px;padding-right:5px;padding-top:1px;">
+  <div class="col-md-12" style="padding-left:10px;padding-right:5px;padding-top:1px;">
     <div class="card">
       <div class="card-header">
         <div class="row">
@@ -58,7 +59,8 @@
 
         <div class="row">
           <div class="col-md-6">
-            <select [disabled]="!servicePointId" name="slPriority" (change)="onChangePriority($event)" [(ngModel)]="priorityId" id="slPriority" class="form-control">
+            <select [disabled]="!servicePointId" name="slPriority" (change)="onChangePriority($event)"
+              [(ngModel)]="priorityId" id="slPriority" class="form-control">
               <option value="">เลือกประเภทผู้ป่วย</option>
               <option *ngFor="let item of priorities" [value]="item.priority_id">{{item.priority_name}}</option>
             </select>
@@ -127,6 +129,11 @@
                       เรียกคิว
                     </span>
                   </button>
+                  <button [disabled]="!roomId" class="btn btn-sm btn-danger" (click)="doMarkPendingSingle(item)">
+                    <span class="h4">
+                      พักคิว
+                    </span>
+                  </button>
 
                 </div>
 
@@ -147,149 +154,245 @@
     </div>
     <!-- </ng-template> -->
   </div>
-  <div class="col-md-6" style="padding-left:5px;padding-right:10px;padding-top:1px;">
-    <div class="card">
-      <div class="card-header" style="min-height:68px;">
-        <div class="row">
-          <div class="col-md-12" style="margin:0px;">
-            <span class="h3" style="padding-left:10px;">คิวที่กำลังเรียก
-              <!-- <label class="badge badge-danger">
-                <span class="h3 font-weight-bold">{{historyItems.length || 0}}</span>
-              </label> -->
-            </span>
-          </div>
+</div>
+
+ิ<br><br>
+<ngb-tabset>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <span class="h3">กำลังตรวจ ({{workingItems.length}})</span>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <div class="card">
+
+        <div class="card-body" style="padding-left:5px;padding-right:5px;padding-top:5px;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ช่องบริการ</th>
+                <th>ชื่อ - สกุล</th>
+                <th>ความสำคัญ</th>
+                <th>คิวปัจจุบัน</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="workingItems.length === 0">
+                <td colspan="5">ไม่พบรายการ</td>
+              </tr>
+              <tr *ngFor="let item of workingItems">
+                <td>
+                  <button (click)="setChangeRoom(item)" class="btn btn-sm btn-success">
+                    <span class="h4">
+                      {{item.room_number}}
+                    </span>
+                  </button>
+                </td>
+                <!-- <td>
+                    <span class="h4">{{item.hn}}</span>
+                  </td> -->
+                <td>
+                  <span class="h4">{{item.title}} {{item.first_name}} {{item.last_name}}</span>
+                </td>
+                <td>
+                  <span class="h4">{{item.priority_name}}</span>
+                </td>
+                <td>
+                  <span class="h3 font-weight-bold text-danger"
+                    style="letter-spacing: 2px;">{{item.service_point_prefix}}{{item.priority_prefix}}{{item.queue_number}}</span>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-sm btn-success" (click)="callAgain(item)">เรียกซ้ำ</button>
+                    <button [disabled]="!roomId" class="btn btn-sm btn-danger" (click)="doMarkPendingSingle(item)">
+                      <span class="h4">
+                        พักคิว
+                      </span>
+                    </button>
+                    <!-- <button class="btn btn-sm btn-danger" (click)="showSelectPointForMarkPending(item)">พัก/ส่งต่อ</button> -->
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
         </div>
       </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <span class="h3">
+        คิวที่ถูกพัก
 
-      <div class="card-body" style="padding-left:5px;padding-right:5px;padding-top:5px;">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ช่องบริการ</th>
-              <th>ชื่อ - สกุล</th>
-              <th>ความสำคัญ</th>
-              <th>คิวปัจจุบัน</th>
-              <th>#</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="workingItems.length === 0">
-              <td colspan="5">ไม่พบรายการ</td>
-            </tr>
-            <tr *ngFor="let item of workingItems">
-              <td>
-                <button (click)="setChangeRoom(item)" class="btn btn-sm btn-success">
-                  <span class="h4">
+        ({{pendingItems.length || 0 | number}})
+
+      </span>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-1">
+              <span>ค้นหา : </span>
+            </div>
+            <div class="col-md-5">
+
+              <!-- <input type="text" class="form-control" [(ngModel)]="query" name="query" (keyup)="searchPending($event)"> -->
+
+              <div class="input-group" style="width: 350px;">
+                <input type="text" (click)="$event.target.select()" class="form-control" name="query"
+                  (keyup)="searchPending($event)" [(ngModel)]="query" placeholder="ระบุคำค้นหา.."
+                  aria-label="ระบุคำค้นหา" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                  <button class="btn btn-primary btn-sm" (click)="getPending()" type="button" id="button-addon2">
+                    <i class="mdi mdi-account-search"></i>
+                    ค้นหา
+                  </button>
+                  <button class="btn btn-primary btn-sm" (click)="refreshPending()" type="button" id="button-addon2">
+                    <i class="mdi mdi mdi-refresh"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">รายการคิวที่ถูกพัก</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>HN</th>
+                <th>เวลา</th>
+                <th>ชื่อ - สกุล</th>
+                <th>ความสำคัญ</th>
+                <th>คิวตรวจ</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="pendingItems.length === 0">
+                <td colspan="7">ไม่พบรายการ</td>
+              </tr>
+              <tr *ngFor="let item of pendingItems">
+                <td>
+                  <span>{{item.hn}}</span>
+                </td>
+                <td>
+                  <span>{{item.time_serv}}</span>
+                </td>
+                <td>
+                  <span>{{item.title}} {{item.first_name}} {{item.last_name}}</span>
+                </td>
+                <td>
+                  <span>{{item.priority_name}}</span>
+                </td>
+                <td>
+                  <label class="badge badge-danger" style="width: 100px;">
+                    <span class="h3 font-weight-bold" style="letter-spacing: 2px;">{{item.queue_number}}</span>
+                  </label>
+                </td>
+
+                <td>
+
+
+
+                  <div class="btn-group">
+
+                    <button [disabled]="!roomId" class="btn btn-sm btn-success" (click)="onCallCurrentQueue(item)">
+                      <span class="h4">
+                        เรียกคิว
+                      </span>
+                    </button>
+
+                  </div>
+
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab>
+    <ng-template ngbTabTitle>
+      <span class="h3">คิวที่ถูกเรียกไปแล้ว ({{historyTotal || 0}})</span>
+    </ng-template>
+    <ng-template ngbTabContent>
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-2" style="vertical-align: middle;text-align: right">
+              <span>ค้นหา :</span>
+            </div>
+            <div class="col-md-5" style="padding-left:0;">
+              <input [disabled]="!servicePointId" type="text" class="form-control" [(ngModel)]="queryHistory"
+                name="queryHistory" (keyup)="searchQueryHistory()">
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ช่องบริการ</th>
+                <th>HN</th>
+                <th>ชื่อ - สกุล</th>
+                <th>ความสำคัญ</th>
+                <th>คิวปัจจุบัน</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="historyItems.length === 0">
+                <td colspan="5">ไม่พบรายการ</td>
+              </tr>
+              <tr *ngFor="let item of historyItems">
+                <td>
+                  <!-- <button (click)="setChangeRoom(item)" class="btn btn-sm btn-success" [ngbPopover]="popContentChangeRoom"
+                      popoverTitle="เปลี่ยนช่องบริการ"> -->
+                  <span class="h3 btn btn-sm btn-success">
                     {{item.room_number}}
                   </span>
-                </button>
-              </td>
-              <!-- <td>
-                <span class="h4">{{item.hn}}</span>
-              </td> -->
-              <td>
-                <span class="h4">{{item.title}} {{item.first_name}} {{item.last_name}}</span>
-              </td>
-              <td>
-                <span class="h4">{{item.priority_name}}</span>
-              </td>
-              <td>
-                <span class="h3 font-weight-bold text-danger"
-                  style="letter-spacing: 2px;">{{item.service_point_prefix}}{{item.priority_prefix}}{{item.queue_number}}</span>
-              </td>
-              <td>
-                <div class="btn-group">
-                  <button class="btn btn-sm btn-success" (click)="callAgain(item)">เรียกซ้ำ</button>
-                  <!-- <button class="btn btn-sm btn-danger" (click)="showSelectPointForMarkPending(item)">พัก/ส่งต่อ</button> -->
-                </div>
-              </td>
-            </tr>
+                  <!-- </button> -->
+                </td>
+                <td>
+                  <span class="h4">{{item.hn}}</span>
+                </td>
+                <td>
+                  <span class="h4">{{item.title}} {{item.first_name}} {{item.last_name}}</span>
+                </td>
+                <td>
+                  <span class="h4">{{item.priority_name}}</span>
+                </td>
+                <td>
+                  <span class="h3 font-weight-bold text-danger"
+                    style="letter-spacing: 2px;">{{item.service_point_prefix}}{{item.priority_prefix}}{{item.queue_number}}</span>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <button class="btn btn-sm btn-success" (click)="callAgains(item)">เรียกซ้ำ</button>
+                    <!-- <button class="btn btn-sm btn-danger" (click)="showSelectPointForMarkPending(item)">พัก/ส่งต่อ</button> -->
+                  </div>
+                </td>
+              </tr>
 
-          </tbody>
-        </table>
-
-      </div>
-    </div>
-
-  </div>
-  <div class="col-md-12" style="padding-left:5px;padding-right:10px;padding-top:10px;">
-    <div class="card">
-      <div class="card-header">
-        <div class="row">
-          <div class="col-md-12" style="margin:0px;">
-            <span class="h3" style="padding-left:10px;">คิวที่ถูกเรียกไปแล้ว
-              <label class="badge badge-danger">
-                <span class="h4 font-weight-bold">{{historyTotal || 0}}</span>
-              </label>
-            </span>
-          </div>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-2" style="vertical-align: middle;text-align: right">
-            <span>ค้นหา :</span>
-          </div>
-          <div class="col-md-5" style="padding-left:0;">
-            <input [disabled]="!servicePointId" type="text" class="form-control" [(ngModel)]="queryHistory"
-              name="queryHistory" (keyup)="searchQueryHistory()">
-          </div>
-        </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ช่องบริการ</th>
-              <th>HN</th>
-              <th>ชื่อ - สกุล</th>
-              <th>ความสำคัญ</th>
-              <th>คิวปัจจุบัน</th>
-              <th>#</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngIf="historyItems.length === 0">
-              <td colspan="5">ไม่พบรายการ</td>
-            </tr>
-            <tr *ngFor="let item of historyItems">
-              <td>
-                <!-- <button (click)="setChangeRoom(item)" class="btn btn-sm btn-success" [ngbPopover]="popContentChangeRoom"
-                  popoverTitle="เปลี่ยนช่องบริการ"> -->
-                <span class="h3 btn btn-sm btn-success">
-                  {{item.room_number}}
-                </span>
-                <!-- </button> -->
-              </td>
-              <td>
-                <span class="h4">{{item.hn}}</span>
-              </td>
-              <td>
-                <span class="h4">{{item.title}} {{item.first_name}} {{item.last_name}}</span>
-              </td>
-              <td>
-                <span class="h4">{{item.priority_name}}</span>
-              </td>
-              <td>
-                <span class="h3 font-weight-bold text-danger"
-                  style="letter-spacing: 2px;">{{item.service_point_prefix}}{{item.priority_prefix}}{{item.queue_number}}</span>
-              </td>
-              <td>
-                <div class="btn-group">
-                  <button class="btn btn-sm btn-success" (click)="callAgains(item)">เรียกซ้ำ</button>
-                  <!-- <button class="btn btn-sm btn-danger" (click)="showSelectPointForMarkPending(item)">พัก/ส่งต่อ</button> -->
-                </div>
-              </td>
-            </tr>
 
-          </tbody>
-        </table>
-      </div>
-    </div>
 
-  </div>
-</div>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>
 
 <app-modal-select-servicepoints (onSelected)="onSelectedPoint($event)" #mdlServicePoint>
 </app-modal-select-servicepoints>
 
-<app-modal-select-transfer #mdlSelectTransfer [servicePointId]='selectedQueue.service_point_id' [priorityId]='selectedQueue.priority_id' (onSelected)="onSelectedTransfer($event)"></app-modal-select-transfer>
+<app-modal-select-transfer #mdlSelectTransfer [servicePointId]='selectedQueue.service_point_id'
+  [priorityId]='selectedQueue.priority_id' (onSelected)="onSelectedTransfer($event)"></app-modal-select-transfer>
 <!-- <app-modal-select-room [rooms]="rooms" (onSelected)="onSelectRoom($event)" #mdlSelectRoom></app-modal-select-room> -->

@@ -234,6 +234,13 @@ export class QueueService {
       pendigOldQueue: pendigOldQueue
     }, this.httpOptions).toPromise();
   }
+  async markPendingSingle(queueId: any, servicePointId: any) {
+    const _url = `${this.apiUrl}/queue/pending-single`;
+    return this.httpClient.post(_url, {
+      queueId: queueId,
+      servicePointId: servicePointId
+    }, this.httpOptions).toPromise();
+  }
 
   async markCancel(queueId: any) {
     const _url = `${this.apiUrl}/queue/cancel/${queueId}`;
