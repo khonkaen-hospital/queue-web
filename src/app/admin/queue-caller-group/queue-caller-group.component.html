@@ -100,6 +100,7 @@
           <thead>
             <tr>
               <th>ชื่อ - สกุล</th>
+              <th>เวลา</th>
               <th>ความสำคัญ</th>
               <th>คิวตรวจ</th>
               <th>#</th>
@@ -113,6 +114,9 @@
               <td>
                 <span class="h3-x">{{item.title}}{{item.first_name}} {{item.last_name}}</span>
                 <p>HN: {{item.hn}}</p>
+              </td>
+              <td>
+                <span class="h3-x">{{item.date_create | date:'h:mm'}}</span>
               </td>
               <td>
                 <span class="h3-x">{{item.priority_name}}</span>
@@ -132,6 +136,12 @@
                   <button [disabled]="!roomId" class="btn btn-sm btn-danger" (click)="doMarkPendingSingle(item)">
                     <span class="h4">
                       พักคิว
+                    </span>
+                  </button>
+
+                  <button class="btn btn-sm btn-primary" (click)="showSelectPointForMarkPending(item)">
+                    <span class="h4">
+                      ส่งต่อ
                     </span>
                   </button>
 
