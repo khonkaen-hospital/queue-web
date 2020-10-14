@@ -112,10 +112,21 @@ export class SsoComponent implements OnInit {
     }
 
     const topic = `kiosk/${this.kioskId}`;
+    const updateTokenTopic = `/kiosk/update-token/${this.kioskId}`;
 
     const that = this;
 
     this.client.on('message', async (topic, payload) => {
+
+      if (topic === updateTokenTopic) {
+        const _payload = JSON.parse(payload.toString());
+        if (_payload.id) {
+          console.log('Update nhso token');
+          localStorage.setItem('nhsoToken', _payload.token);
+          localStorage.setItem('nhsoCid', _payload.id_card);
+        }
+      }
+
       try {
         const _payload = JSON.parse(payload.toString());
         if (_payload.ok) {
@@ -133,6 +144,22 @@ export class SsoComponent implements OnInit {
       console.log(`Connected!`);
       that.zone.run(() => {
         that.isOffline = false;
+      });
+
+      that.client.subscribe(updateTokenTopic, { qos: 0 }, (error) => {
+
+        if (error) {
+          that.zone.run(() => {
+            that.isOffline = true;
+            try {
+              that.counter.restart();
+            } catch (error) {
+              console.log(error);
+            }
+          });
+        } else {
+          console.log(`subscribe ${updateTokenTopic}`);
+        }
       });
 
       that.client.subscribe(topic, { qos: 0 }, (error) => {

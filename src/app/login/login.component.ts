@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('username', this.username);
           sessionStorage.setItem('servicePoints', JSON.stringify(rs.servicePoints));
           if (decoded.userType === 'KIOSK') {
-            this.router.navigate(['/kiosk']);
+            this.router.navigate(['/kiosk/sso']);
           } else {
             this.router.navigate(['/admin']);
           }
