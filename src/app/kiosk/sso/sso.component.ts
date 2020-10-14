@@ -117,10 +117,10 @@ export class SsoComponent implements OnInit {
     const that = this;
 
     this.client.on('message', async (topic, payload) => {
-
+      console.log(topic, updateTokenTopic);
       if (topic === updateTokenTopic) {
         const _payload = JSON.parse(payload.toString());
-        if (_payload.id) {
+        if (_payload.token) {
           console.log('Update nhso token');
           localStorage.setItem('nhsoToken', _payload.token);
           localStorage.setItem('nhsoCid', _payload.id_card);
