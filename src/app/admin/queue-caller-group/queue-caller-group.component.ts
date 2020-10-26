@@ -14,6 +14,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { ModalSelectTransferComponent } from 'src/app/shared/modal-select-transfer/modal-select-transfer.component';
 import { ModalSelectRoomComponent } from 'src/app/shared/modal-select-room/modal-select-room.component';
 import { PriorityService } from '../../shared/priority.service';
+import { PrioritiesServicepointService } from 'src/app/shared/priorities-servicepoint.service';
 
 @Component({
   selector: 'app-queue-caller-group',
@@ -84,6 +85,7 @@ export class QueueCalleGroupComponent implements OnInit, OnDestroy {
     private priorityService: PriorityService,
     private alertService: AlertService,
     private zone: NgZone,
+    private prioritiesServicepointService: PrioritiesServicepointService,
     @Inject('API_URL') private apiUrl: string,
   ) {
     const token = sessionStorage.getItem('token');
@@ -124,10 +126,25 @@ export class QueueCalleGroupComponent implements OnInit, OnDestroy {
   }
 
   async getPriorities() {
+
+    const data: any = await this.prioritiesServicepointService.listBySerivicePoint(this.servicePointId);
+    console.log('getPriorities', data);
     try {
-      var rs: any = await this.priorityService.list();
+      let rs: any = await this.priorityService.list();
       if (rs.statusCode === 200) {
-        this.priorities = rs.results;
+        if (data.results.length > 0) {
+          const selected = [];
+          data.results.forEach(v => {
+            const proi = rs.results.find(p => p.priority_id === v.priority_id);
+            if (proi) { selected.push(proi); }
+          });
+
+          if (selected.length > 0) {
+            this.priorities = selected;
+          }
+        } else {
+          this.priorities = rs.results;
+        }
       }
     } catch (error) {
       console.log(error);
@@ -420,6 +437,7 @@ export class QueueCalleGroupComponent implements OnInit, OnDestroy {
   selectServicePoint() {
     this.isMarkPending = false;
     this.mdlServicePoint.open(false);
+
   }
 
   showSelectPointForMarkPending(item: any) {
@@ -429,7 +447,7 @@ export class QueueCalleGroupComponent implements OnInit, OnDestroy {
   }
 
   onSelectedPoint(event: any) {
-    // console.log(event);
+    console.log('onSelectedPoint', event);
     if (event) {
       this.servicePointName = event.service_point_name;
       this.servicePointId = event.service_point_id;
@@ -438,6 +456,7 @@ export class QueueCalleGroupComponent implements OnInit, OnDestroy {
       this.connectWebSocket();
       this.getAllList();
       this.getRooms();
+      this.getPriorities();
     }
   }
 
