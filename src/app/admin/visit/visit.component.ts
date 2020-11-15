@@ -364,4 +364,22 @@ export class VisitComponent implements OnInit {
       this.printQueue(queueId);
     }
   }
+
+  async cancelQueue(queue: any) {
+    const _confirm = await this.alertService.confirm(`ต้องการรยกเลิกคิวนี้ [${queue.queue_number}] ใช่หรือไม่?`);
+    if (_confirm) {
+      try {
+        const rs: any = await this.queueService.markCancel(queue.queue_id);
+        if (rs.statusCode === 200) {
+          this.alertService.success();
+          this.getHistory();
+        } else {
+          this.alertService.error(rs.message);
+        }
+      } catch (error) {
+        console.log(error);
+        this.alertService.error();
+      }
+    }
+  }
 }

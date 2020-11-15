@@ -170,6 +170,12 @@
                     </td>
                     <td>{{v.queue_number}} </td>
                     <td>
+
+                      <button *ngIf="v.is_cancel=='N'" class="btn btn-sm btn-gradient-danger btn-icon-text"
+                        (click)="cancelQueue(v)">
+                        <i class="mdi mdi-cancel"></i> ยกเลิก
+                      </button>
+
                       <button *ngIf="v.is_cancel=='Y'" class="btn btn-sm btn-gradient-primary"
                         (click)="openPriorityHistory(v)">
                         <i class="mdi mdi-library-plus"></i> สร้างคิวใหม่
